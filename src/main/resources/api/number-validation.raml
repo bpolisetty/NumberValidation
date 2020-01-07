@@ -1,0 +1,71 @@
+#%RAML 1.0
+title: Number Validation
+version: v1
+description: NumVerify offers a full-featured yet simple RESTful JSON API for national and international phone number validation and information lookup for a total of 232 countries around the world.Requested numbers are processed in real-time, cross-checked with the latest international numbering plan databases and returned in handy JSON format enriched with useful carrier, geographical location and line type data.Integrating the numverify API into your application will enable you to verify the validity of phone numbers at the point of entry, protecting you from fraud and increasing good leads.
+baseUri: http://apilayer.net/api
+protocols: [http,https]
+mediaType: 
+  - application/json
+securitySchemes:
+  Basic:
+    type: Basic Authentication
+types:
+  apiresponse:
+    properties:
+      valid: boolean
+      number: string
+      local_format: string
+      international_format: string
+      country_prefix: string
+      country_code: string
+      country_name: string
+      location: string
+      carrier: string
+      line_type: string
+/validate:
+  get:
+    securedBy: [Basic]
+    queryParameters:
+      access_key : string
+      number : string
+      country_code : string
+      format : string
+    responses:
+      400:
+        body:
+          application/json:
+            properties:
+              message: string
+            example:
+              {
+                message : " API Key Not Found"
+              }
+      403:
+        body:
+          application/json:
+            properties:
+              message: string
+            example:
+              {
+                message : " Resource Not Found"
+              }
+      200:
+        body:
+          application/json:
+            type: apiresponse
+            example:
+                    {
+        "valid":true,
+        "number":"919705559645",
+        "local_format":"09705559645",
+        "international_format":"+919705559645",
+        "country_prefix":"+91",
+        "country_code":"IN",
+        "country_name":"India (Republic of)",
+        "location":"Andhra Pradesh",
+        "carrier":"Vodafone Idea Ltd (formerly Idea Cellular Ltd)",
+        "line_type":"mobile"
+                    }
+              
+          
+          
